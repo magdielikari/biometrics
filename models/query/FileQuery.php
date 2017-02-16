@@ -1,7 +1,5 @@
 <?php
-
 namespace app\models\query;
-
 /**
  * This is the ActiveQuery class for [[\app\models\File]].
  *
@@ -13,7 +11,6 @@ class FileQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere('[[status]]=1');
     }*/
-
     /**
      * @inheritdoc
      * @return \app\models\File[]|array
@@ -22,7 +19,6 @@ class FileQuery extends \yii\db\ActiveQuery
     {
         return parent::all($db);
     }
-
     /**
      * @inheritdoc
      * @return \app\models\File|array|null

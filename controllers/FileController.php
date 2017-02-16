@@ -87,7 +87,6 @@ class FileController extends Controller
 
     public function actionImport($id)
     {
-        $status = 'no';
         $model = $this->findModel($id);
         $inputFile = $model->path;
         try
@@ -114,6 +113,7 @@ class FileController extends Controller
             $data->number = $dota[$row]['B'];
             $data->name = $dota[$row]['C'];
             $data->event = $dota[$row]['F'];
+            $data->status = '0';
             $data->create_at = date('Y-m-d h:m:s');
             $data->save();
             print_r($data->getErrors());

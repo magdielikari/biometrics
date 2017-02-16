@@ -74,6 +74,30 @@ class DataController extends Controller
         }
     }
 
+    public function actionUpload()
+    {   
+        for($id = 1; $id <= 2; $id++)
+        {
+            $model = $this->findModel($id);
+            $a = $model->time;
+            echo $a . "<br>";
+            $b = strtotime($a);
+            echo $b . "<br>";
+            $c = getdate($b);
+            foreach ($c as $key) {
+                echo $key . "<br>";
+            }
+            /*
+            $c = date_create_from_format("j-M-Y", $b);
+            $time = strtotime('10/16/2003');
+            $newformat = date('Y-m-d',$time);
+            echo $newformat;
+            // 2003-10-16
+            */
+        }
+    }
+
+
     /**
      * Updates an existing Data model.
      * If update is successful, the browser will be redirected to the 'view' page.

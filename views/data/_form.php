@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'event')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'create_at')->textInput() ?>
 
     <div class="form-group">

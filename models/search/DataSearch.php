@@ -19,7 +19,7 @@ class DataSearch extends Data
     {
         return [
             [['id', 'number'], 'integer'],
-            [['time', 'name', 'event', 'create_at'], 'safe'],
+            [['time', 'name', 'event', 'status', 'create_at'], 'safe'],
         ];
     }
 
@@ -66,7 +66,8 @@ class DataSearch extends Data
 
         $query->andFilterWhere(['like', 'time', $this->time])
             ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'event', $this->event]);
+            ->andFilterWhere(['like', 'event', $this->event])
+            ->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;
     }

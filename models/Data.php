@@ -12,6 +12,7 @@ use Yii;
  * @property string $number
  * @property string $name
  * @property string $event
+ * @property string $status
  * @property string $create_at
  */
 class Data extends \yii\db\ActiveRecord
@@ -35,6 +36,7 @@ class Data extends \yii\db\ActiveRecord
             [['create_at'], 'safe'],
             [['time', 'event'], 'string', 'max' => 71],
             [['name'], 'string', 'max' => 127],
+            [['status'], 'string', 'max' => 1],
         ];
     }
 
@@ -49,6 +51,7 @@ class Data extends \yii\db\ActiveRecord
             'number' => Yii::t('app', 'Number'),
             'name' => Yii::t('app', 'Name'),
             'event' => Yii::t('app', 'Event'),
+            'status' => Yii::t('app', 'Status'),
             'create_at' => Yii::t('app', 'Create At'),
         ];
     }

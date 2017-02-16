@@ -1,9 +1,6 @@
 <?php
-
 namespace app\models;
-
 use Yii;
-
 /**
  * This is the model class for table "file".
  *
@@ -22,7 +19,6 @@ class File extends \yii\db\ActiveRecord
     {
         return 'file';
     }
-
     /**
      * @inheritdoc
      */
@@ -35,7 +31,6 @@ class File extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 113]
         ];
     }
-
     /**
      * @inheritdoc
      */
@@ -50,7 +45,6 @@ class File extends \yii\db\ActiveRecord
             'file' => Yii::t('app', 'Excel'),
         ];
     }
-
     /**
      * @inheritdoc
      * @return \app\models\query\FileQuery the active query used by this AR class.
