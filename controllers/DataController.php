@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Data;
+use app\models\Date;
+use app\models\Person;
 use app\models\search\DataSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -76,8 +78,75 @@ class DataController extends Controller
 
     public function actionUpload()
     {   
-        $model = Data::find()->where(['status' => "0"])->all();
-        //var_dump($model);
+        $model = Data::find()
+                ->select(['name','number'])
+                ->where(['status'=>"0"])
+                ->distinct()
+                ->all();
+
+        foreach ($model as $key) {
+            $person = new Person();
+            $person->ci = $key->number;
+            $person->name = $key->name;
+            $person->save();
+        }
+    }
+
+    public function actionUp()
+    {
+        $model = Data::find()
+                    ->
+                    ->where(['status' => "0"])
+                    ->all();
+/*
+SELECT DISTINCT Fecha, DiaS, Dia, Mes, Ano, Persona.Id from assistance inner join Persona on assistance.CI=Persona.Ci 
+*/
+        foreach ($model as $key) 
+        {
+            $aux = $key->time;
+            $aux = strtotime($aux);
+            $aux = getdate($aux);
+            //$date = new Date();
+            //$date->event = $model->$event;
+            $a = $key->number;
+            /*
+            echo $key->id . "<br>";
+            echo $a . "<br>";
+            */
+            //echo $key->number . "<br>";
+            $person = Person::findOne([
+                    'ci' => $a]);
+            //echo $person . "<br>";
+
+/*
+                    ->distinct()
+                    ->where('ci=:a')
+                    ->addParams([':a' => $a])
+                    ->all();
+*/
+            /*
+            $query->where('status=:status')
+                ->addParams([':status' => $status]);
+
+            foreach ($person as $k) {
+                echo $k->id . "<br>";
+                echo $k->ci . "<br>";
+            }
+            */
+            var_dump($person);
+            //echo $person->id;
+            //$date->persona_id = $person->id;
+            /*
+            foreach ($aux as $k => $v) 
+            {
+                
+            } 
+            */              
+        }
+
+    }
+
+        /*
         foreach ($model as $key) {
             $a = $key->time;
             $b = strtotime($a);
@@ -88,7 +157,6 @@ class DataController extends Controller
                 echo "$k => $v"."<br>";
             }
         }
-        /*
         for($id = 1; $id <= 2; $id++)
         {
            //$model = $this->findModel($id);
@@ -107,8 +175,8 @@ class DataController extends Controller
             echo $newformat;
             // 2003-10-16
         }
-        */
     }
+        */
 
 
     /**
