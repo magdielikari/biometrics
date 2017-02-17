@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Data;
-use app\models\search\DataSearch;
+use app\models\Date;
+use app\models\search\DateSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DataController implements the CRUD actions for Data model.
+ * DateController implements the CRUD actions for Date model.
  */
-class DataController extends Controller
+class DateController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class DataController extends Controller
     }
 
     /**
-     * Lists all Data models.
+     * Lists all Date models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DataSearch();
+        $searchModel = new DateSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class DataController extends Controller
     }
 
     /**
-     * Displays a single Data model.
+     * Displays a single Date model.
      * @param string $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class DataController extends Controller
     }
 
     /**
-     * Creates a new Data model.
+     * Creates a new Date model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Data();
+        $model = new Date();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -74,45 +74,8 @@ class DataController extends Controller
         }
     }
 
-    public function actionUpload()
-    {   
-        $model = Data::find()->where(['status' => "0"])->all();
-        //var_dump($model);
-        foreach ($model as $key) {
-            $a = $key->time;
-            $b = strtotime($a);
-            $c = getdate($b);
-            $z = $key->id;
-            echo $z . "<br>";
-            foreach ($c as $k => $v) {
-                echo "$k => $v"."<br>";
-            }
-        }
-        /*
-        for($id = 1; $id <= 2; $id++)
-        {
-           //$model = $this->findModel($id);
-            $a = $model->time;
-            echo $a . "<br>";
-            $b = strtotime($a);
-            echo $b . "<br>";
-            $c = getdate($b);
-            foreach ($c as $key => $value) {
-                echo "$key => $value" . "<br>";
-            }
-            
-            $c = date_create_from_format("j-M-Y", $b);
-            $time = strtotime('10/16/2003');
-            $newformat = date('Y-m-d',$time);
-            echo $newformat;
-            // 2003-10-16
-        }
-        */
-    }
-
-
     /**
-     * Updates an existing Data model.
+     * Updates an existing Date model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -131,7 +94,7 @@ class DataController extends Controller
     }
 
     /**
-     * Deletes an existing Data model.
+     * Deletes an existing Date model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -144,15 +107,15 @@ class DataController extends Controller
     }
 
     /**
-     * Finds the Data model based on its primary key value.
+     * Finds the Date model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Data the loaded model
+     * @return Date the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Data::findOne($id)) !== null) {
+        if (($model = Date::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
