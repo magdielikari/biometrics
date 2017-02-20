@@ -11,14 +11,14 @@ use Yii;
  * @property integer $seconds
  * @property integer $minutes
  * @property integer $hours
- * @property integer $mday
- * @property integer $wday
- * @property integer $mon
+ * @property integer $number_day
+ * @property integer $number_weeks_day
+ * @property integer $number_month
  * @property integer $year
- * @property integer $yday
+ * @property integer $number_years_day
  * @property string $weekday
  * @property string $month
- * @property string $0
+ * @property string $unix_time
  * @property string $event
  * @property string $persona_id
  *
@@ -40,8 +40,8 @@ class Date extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['seconds', 'minutes', 'hours', 'mday', 'wday', 'mon', 'year', 'yday', 'weekday', 'month', '0', 'event', 'persona_id'], 'required'],
-            [['seconds', 'minutes', 'hours', 'mday', 'wday', 'mon', 'year', 'yday', '0', 'persona_id'], 'integer'],
+            [['seconds', 'minutes', 'hours', 'number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day', 'weekday', 'month', 'unix_time', 'event', 'persona_id'], 'required'],
+            [['seconds', 'minutes', 'hours', 'number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day', 'unix_time', 'persona_id'], 'integer'],
             [['weekday', 'month'], 'string', 'max' => 17],
             [['event'], 'string', 'max' => 71],
             [['persona_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['persona_id' => 'id']],
@@ -58,14 +58,14 @@ class Date extends \yii\db\ActiveRecord
             'seconds' => Yii::t('app', 'Seconds'),
             'minutes' => Yii::t('app', 'Minutes'),
             'hours' => Yii::t('app', 'Hours'),
-            'mday' => Yii::t('app', 'Mday'),
-            'wday' => Yii::t('app', 'Wday'),
-            'mon' => Yii::t('app', 'Mon'),
+            'number_day' => Yii::t('app', 'Number Day'),
+            'number_weeks_day' => Yii::t('app', 'Number Weeks Day'),
+            'number_month' => Yii::t('app', 'Number Month'),
             'year' => Yii::t('app', 'Year'),
-            'yday' => Yii::t('app', 'Yday'),
+            'number_years_day' => Yii::t('app', 'Number Years Day'),
             'weekday' => Yii::t('app', 'Weekday'),
             'month' => Yii::t('app', 'Month'),
-            '0' => Yii::t('app', '0'),
+            'unix_time' => Yii::t('app', 'Unix Time'),
             'event' => Yii::t('app', 'Event'),
             'persona_id' => Yii::t('app', 'Persona ID'),
         ];

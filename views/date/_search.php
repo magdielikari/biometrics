@@ -23,21 +23,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'hours') ?>
 
-    <?= $form->field($model, 'mday') ?>
+    <?= $form->field($model, 'number_day') ?>
 
-    <?php // echo $form->field($model, 'wday') ?>
+    <?php // echo $form->field($model, 'number_weeks_day') ?>
 
-    <?php // echo $form->field($model, 'mon') ?>
+    <?php // echo $form->field($model, 'number_month') ?>
 
     <?php // echo $form->field($model, 'year') ?>
 
-    <?php // echo $form->field($model, 'yday') ?>
+    <?php // echo $form->field($model, 'number_years_day') ?>
 
     <?php // echo $form->field($model, 'weekday') ?>
 
     <?php // echo $form->field($model, 'month') ?>
 
-    <?php // echo $form->field($model, '0') ?>
+    <?php // echo $form->field($model, 'unix_time') ?>
 
     <?php // echo $form->field($model, 'event') ?>
 

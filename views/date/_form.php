@@ -12,29 +12,27 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'seconds')->textInput() ?>
 
     <?= $form->field($model, 'minutes')->textInput() ?>
 
     <?= $form->field($model, 'hours')->textInput() ?>
 
-    <?= $form->field($model, 'mday')->textInput() ?>
+    <?= $form->field($model, 'number_day')->textInput() ?>
 
-    <?= $form->field($model, 'wday')->textInput() ?>
+    <?= $form->field($model, 'number_weeks_day')->textInput() ?>
 
-    <?= $form->field($model, 'mon')->textInput() ?>
+    <?= $form->field($model, 'number_month')->textInput() ?>
 
     <?= $form->field($model, 'year')->textInput() ?>
 
-    <?= $form->field($model, 'yday')->textInput() ?>
+    <?= $form->field($model, 'number_years_day')->textInput() ?>
 
     <?= $form->field($model, 'weekday')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'month')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, '0')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'unix_time')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'event')->textInput(['maxlength' => true]) ?>
 

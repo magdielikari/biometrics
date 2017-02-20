@@ -10,6 +10,8 @@ use app\models\search\DataSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
+use yii\db\Query;
 
 /**
  * DataController implements the CRUD actions for Data model.
@@ -92,92 +94,64 @@ class DataController extends Controller
         }
     }
 
+    //print("<pre>".print_r($key,true)."</pre>");
+    //print("<pre>".print_r($value,true)."</pre>");
+
     public function actionUp()
     {
-        $model = Data::find()
-                    ->
-                    ->where(['status' => "0"])
-                    ->all();
-/*
-SELECT DISTINCT Fecha, DiaS, Dia, Mes, Ano, Persona.Id from assistance inner join Persona on assistance.CI=Persona.Ci 
-*/
-        foreach ($model as $key) 
+
+        $query = (new Query())
+            ->select(['time','event','person.id'])
+            ->from('data')
+            ->where(['status' => '0'])
+            ->innerJoin('person','data.number=person.ci')
+            ->all();
+        $m = [];
+        foreach ($query as $k => $v)
         {
-            $aux = $key->time;
-            $aux = strtotime($aux);
-            $aux = getdate($aux);
-            //$date = new Date();
-            //$date->event = $model->$event;
-            $a = $key->number;
-            /*
-            echo $key->id . "<br>";
-            echo $a . "<br>";
-            */
-            //echo $key->number . "<br>";
-            $person = Person::findOne([
-                    'ci' => $a]);
-            //echo $person . "<br>";
-
-/*
-                    ->distinct()
-                    ->where('ci=:a')
-                    ->addParams([':a' => $a])
-                    ->all();
-*/
-            /*
-            $query->where('status=:status')
-                ->addParams([':status' => $status]);
-
-            foreach ($person as $k) {
-                echo $k->id . "<br>";
-                echo $k->ci . "<br>";
-            }
-            */
-            var_dump($person);
-            //echo $person->id;
-            //$date->persona_id = $person->id;
-            /*
-            foreach ($aux as $k => $v) 
+            $m[$k] = $v;           
+            foreach ($v as $key => $value) 
             {
-                
-            } 
-            */              
+                $m[$k][$key] = $value;
+                if($key == 'time')
+                {
+                    $aux = $value;
+                    $aux = strtotime($aux);
+                    $aux = getdate($aux);
+                    foreach ($aux as $a => $e) 
+                    {
+                        $m[$k][$a] = $e;
+                    }
+                }
+            }   
         }
-
-    }
-
-        /*
-        foreach ($model as $key) {
-            $a = $key->time;
-            $b = strtotime($a);
-            $c = getdate($b);
-            $z = $key->id;
-            echo $z . "<br>";
-            foreach ($c as $k => $v) {
-                echo "$k => $v"."<br>";
-            }
-        }
-        for($id = 1; $id <= 2; $id++)
+/*
+        foreach ($m as $k => $v) 
         {
-           //$model = $this->findModel($id);
-            $a = $model->time;
-            echo $a . "<br>";
-            $b = strtotime($a);
-            echo $b . "<br>";
-            $c = getdate($b);
-            foreach ($c as $key => $value) {
-                echo "$key => $value" . "<br>";
-            }
-            
-            $c = date_create_from_format("j-M-Y", $b);
-            $time = strtotime('10/16/2003');
-            $newformat = date('Y-m-d',$time);
-            echo $newformat;
-            // 2003-10-16
+            //print("<pre>".print_r($v,true)."</pre>");
+            echo $v['seconds'];
         }
+*/
+        foreach ($m as $k => $v) 
+        {
+            $model = new Date();
+            $model->seconds = $v['seconds'];
+            $model->minutes = $v['minutes'];
+            $model->hours = $v['hours'];
+            $model->number_day = $v['mday'];
+            $model->number_weeks_day = $v['wday'];
+            $model->number_month = $v['mon'];
+            $model->year = $v['year'];
+            $model->number_years_day = $v['yday'];
+            $model->weekday = $v['weekday'];
+            $model->month = $v['month'];
+            $model->unix_time = $v['0'];
+            $model->event = $v['event'];
+            $model->persona_id = $v['id'];
+            $model->save();
+        }
+        //print("<pre>".print_r($m,true)."</pre>"); 
     }
-        */
-
 
     /**
      * Updates an existing Data model.

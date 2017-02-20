@@ -18,7 +18,7 @@ class DateSearch extends Date
     public function rules()
     {
         return [
-            [['id', 'seconds', 'minutes', 'hours', 'mday', 'wday', 'mon', 'year', 'yday', '0', 'persona_id'], 'integer'],
+            [['id', 'seconds', 'minutes', 'hours', 'number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day', 'unix_time', 'persona_id'], 'integer'],
             [['weekday', 'month', 'event'], 'safe'],
         ];
     }
@@ -63,12 +63,12 @@ class DateSearch extends Date
             'seconds' => $this->seconds,
             'minutes' => $this->minutes,
             'hours' => $this->hours,
-            'mday' => $this->mday,
-            'wday' => $this->wday,
-            'mon' => $this->mon,
+            'number_day' => $this->number_day,
+            'number_weeks_day' => $this->number_weeks_day,
+            'number_month' => $this->number_month,
             'year' => $this->year,
-            'yday' => $this->yday,
-            '0' => $this->0,
+            'number_years_day' => $this->number_years_day,
+            'unix_time' => $this->unix_time,
             'persona_id' => $this->persona_id,
         ]);
 
