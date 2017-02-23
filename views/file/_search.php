@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\FileSearch */
+/* @var $model app\models\search\FileSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -17,9 +17,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'path') ?>
 
-    <?= $form->field($model, 'path') ?> 
+    <?= $form->field($model, 'name') ?>
 
     <?= $form->field($model, 'create_at') ?>
 

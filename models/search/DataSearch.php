@@ -18,7 +18,7 @@ class DataSearch extends Data
     public function rules()
     {
         return [
-            [['id', 'number'], 'integer'],
+            [['id', 'number', 'file_id'], 'integer'],
             [['time', 'name', 'event', 'status', 'create_at'], 'safe'],
         ];
     }
@@ -62,6 +62,7 @@ class DataSearch extends Data
             'id' => $this->id,
             'number' => $this->number,
             'create_at' => $this->create_at,
+            'file_id' => $this->file_id,
         ]);
 
         $query->andFilterWhere(['like', 'time', $this->time])

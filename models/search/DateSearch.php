@@ -18,8 +18,8 @@ class DateSearch extends Date
     public function rules()
     {
         return [
-            [['id', 'seconds', 'minutes', 'hours', 'number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day', 'unix_time', 'persona_id'], 'integer'],
-            [['weekday', 'month', 'event'], 'safe'],
+            [['id', 'number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day'], 'integer'],
+            [['weekday', 'month'], 'safe'],
         ];
     }
 
@@ -60,21 +60,15 @@ class DateSearch extends Date
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'seconds' => $this->seconds,
-            'minutes' => $this->minutes,
-            'hours' => $this->hours,
             'number_day' => $this->number_day,
             'number_weeks_day' => $this->number_weeks_day,
             'number_month' => $this->number_month,
             'year' => $this->year,
             'number_years_day' => $this->number_years_day,
-            'unix_time' => $this->unix_time,
-            'persona_id' => $this->persona_id,
         ]);
 
         $query->andFilterWhere(['like', 'weekday', $this->weekday])
-            ->andFilterWhere(['like', 'month', $this->month])
-            ->andFilterWhere(['like', 'event', $this->event]);
+            ->andFilterWhere(['like', 'month', $this->month]);
 
         return $dataProvider;
     }

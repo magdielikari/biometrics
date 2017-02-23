@@ -18,7 +18,7 @@ class PersonSearch extends Person
     public function rules()
     {
         return [
-            [['id', 'ci'], 'integer'],
+            [['id', 'ci', 'file_id'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -61,6 +61,7 @@ class PersonSearch extends Person
         $query->andFilterWhere([
             'id' => $this->id,
             'ci' => $this->ci,
+            'file_id' => $this->file_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

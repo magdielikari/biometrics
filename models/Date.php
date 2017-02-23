@@ -8,9 +8,6 @@ use Yii;
  * This is the model class for table "date".
  *
  * @property string $id
- * @property integer $seconds
- * @property integer $minutes
- * @property integer $hours
  * @property integer $number_day
  * @property integer $number_weeks_day
  * @property integer $number_month
@@ -18,11 +15,10 @@ use Yii;
  * @property integer $number_years_day
  * @property string $weekday
  * @property string $month
- * @property string $unix_time
- * @property string $event
- * @property string $persona_id
  *
- * @property Person $persona
+ * @property Labor[] $labors
+ * @property Record[] $records
+ * @property Person[] $people
  */
 class Date extends \yii\db\ActiveRecord
 {
@@ -40,11 +36,9 @@ class Date extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['seconds', 'minutes', 'hours', 'number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day', 'weekday', 'month', 'unix_time', 'event', 'persona_id'], 'required'],
-            [['seconds', 'minutes', 'hours', 'number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day', 'unix_time', 'persona_id'], 'integer'],
+            [['number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day', 'weekday', 'month'], 'required'],
+            [['number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day'], 'integer'],
             [['weekday', 'month'], 'string', 'max' => 17],
-            [['event'], 'string', 'max' => 71],
-            [['persona_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['persona_id' => 'id']],
         ];
     }
 
@@ -55,9 +49,6 @@ class Date extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'seconds' => Yii::t('app', 'Seconds'),
-            'minutes' => Yii::t('app', 'Minutes'),
-            'hours' => Yii::t('app', 'Hours'),
             'number_day' => Yii::t('app', 'Number Day'),
             'number_weeks_day' => Yii::t('app', 'Number Weeks Day'),
             'number_month' => Yii::t('app', 'Number Month'),
@@ -65,18 +56,31 @@ class Date extends \yii\db\ActiveRecord
             'number_years_day' => Yii::t('app', 'Number Years Day'),
             'weekday' => Yii::t('app', 'Weekday'),
             'month' => Yii::t('app', 'Month'),
-            'unix_time' => Yii::t('app', 'Unix Time'),
-            'event' => Yii::t('app', 'Event'),
-            'persona_id' => Yii::t('app', 'Persona ID'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPersona()
+    public function getLabors()
     {
-        return $this->hasOne(Person::className(), ['id' => 'persona_id']);
+        return $this->hasMany(Labor::className(), ['date_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRecords()
+    {
+        return $this->hasMany(Record::className(), ['date_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPeople()
+    {
+        return $this->hasMany(Person::className(), ['id' => 'person_id'])->viaTable('record', ['date_id' => 'id']);
     }
 
     /**

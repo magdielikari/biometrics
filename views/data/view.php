@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'event',
             'status',
             'create_at',
+            'file_id',
         ],
     ]) ?>
 

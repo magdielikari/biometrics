@@ -20,9 +20,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'event')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'create_at')->textInput() ?>
+
+    <?= $form->field($model, 'file_id')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

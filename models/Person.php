@@ -10,7 +10,12 @@ use Yii;
  * @property string $id
  * @property string $name
  * @property string $ci
+ * @property string $file_id
  *
+ * @property Event[] $events
+ * @property Labor[] $labors
+ * @property File $file
+ * @property Record[] $records
  * @property Date[] $dates
  */
 class Person extends \yii\db\ActiveRecord
@@ -29,9 +34,10 @@ class Person extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'ci'], 'required'],
-            [['ci'], 'integer'],
+            [['name', 'ci', 'file_id'], 'required'],
+            [['ci', 'file_id'], 'integer'],
             [['name'], 'string', 'max' => 97],
+            [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => File::className(), 'targetAttribute' => ['file_id' => 'id']],
         ];
     }
 
@@ -44,7 +50,40 @@ class Person extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
             'ci' => Yii::t('app', 'Ci'),
+            'file_id' => Yii::t('app', 'File ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEvents()
+    {
+        return $this->hasMany(Event::className(), ['person_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLabors()
+    {
+        return $this->hasMany(Labor::className(), ['person_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFile()
+    {
+        return $this->hasOne(File::className(), ['id' => 'file_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRecords()
+    {
+        return $this->hasMany(Record::className(), ['person_id' => 'id']);
     }
 
     /**
@@ -52,7 +91,7 @@ class Person extends \yii\db\ActiveRecord
      */
     public function getDates()
     {
-        return $this->hasMany(Date::className(), ['persona_id' => 'id']);
+        return $this->hasMany(Date::className(), ['id' => 'date_id'])->viaTable('record', ['person_id' => 'id']);
     }
 
     /**

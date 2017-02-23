@@ -4,12 +4,11 @@ namespace app\controllers;
 
 use Yii;
 use app\models\File;
-use app\models\Data;
+use app\models\Upload;
 use app\models\search\FileSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
 /**
  * FileController implements the CRUD actions for File model.
@@ -69,15 +68,8 @@ class FileController extends Controller
 
         if ($model->load(Yii::$app->request->post())) 
         {
-            $image = $model->name;
-            $model->file = UploadedFile::getInstance($model,'file');
-            $model->file->saveAs('excel/'.$image.'.'.$model->file->extension);
-            // Save the path and date time of file
-            $model->path = 'excel/'.$image.'.'.$model->file->extension;
-            $model->create_at = date('Y-m-d h:m:s');
-            $model->update_at = date('Y-m-d h:m:s');
-            $model->save();
-            return $this->redirect(['import', 'id' => $model->id]);
+            $id = Upload::file($model);
+            return $this->redirect(['import', 'id' => $id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -85,45 +77,17 @@ class FileController extends Controller
         }
     }
 
+    /**
+     *
+     */
     public function actionImport($id)
     {
         $model = $this->findModel($id);
-        $inputFile = $model->path;
-        try
+        $status = Upload::data($id, $model);
+        if($status)
         {
-            $dota = \moonland\phpexcel\Excel::import($inputFile,[
-                'setFirstRecordAsKeys' => false,
-                'setIndexSheetByName' => true, 
-                'getOnlySheet' => 'sheet1'
-            ]);
-        }catch(Exception $e)
-        {
-        die('Error');
+            return $this->redirect(['data/import', 'app' => $id]);
         }
-        $N = count($dota);
-        for($row = 1; $row <= $N; $row++)
-        {
-            if($row == 1)
-            {
-            continue;
-            }
-            $data = new Data();
-            //$data->id 
-            $data->time = $dota[$row]['A'];
-            $data->number = $dota[$row]['B'];
-            $data->name = $dota[$row]['C'];
-            $data->event = $dota[$row]['F'];
-            $data->status = '0';
-            $data->create_at = date('Y-m-d h:m:s');
-            $data->save();
-            print_r($data->getErrors());
-        }
-        $status = 'ok';
-        return $this->render('import', [
-            'model' => $this->findModel($id),
-            'status'
-        ]);
-
     }
 
     /**

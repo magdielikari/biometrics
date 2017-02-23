@@ -12,12 +12,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'seconds')->textInput() ?>
-
-    <?= $form->field($model, 'minutes')->textInput() ?>
-
-    <?= $form->field($model, 'hours')->textInput() ?>
-
     <?= $form->field($model, 'number_day')->textInput() ?>
 
     <?= $form->field($model, 'number_weeks_day')->textInput() ?>
@@ -31,12 +25,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'weekday')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'month')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'unix_time')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'event')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'persona_id')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

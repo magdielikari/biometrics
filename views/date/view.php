@@ -29,9 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'seconds',
-            'minutes',
-            'hours',
             'number_day',
             'number_weeks_day',
             'number_month',
@@ -39,9 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'number_years_day',
             'weekday',
             'month',
-            'unix_time',
-            'event',
-            'persona_id',
         ],
     ]) ?>
 

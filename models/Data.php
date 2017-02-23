@@ -14,6 +14,10 @@ use Yii;
  * @property string $event
  * @property string $status
  * @property string $create_at
+ * @property string $file_id
+ *
+ * @property File $file
+ * @property Person[] $people
  */
 class Data extends \yii\db\ActiveRecord
 {
@@ -31,12 +35,12 @@ class Data extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['time', 'number', 'name', 'event', 'create_at'], 'required'],
-            [['number'], 'integer'],
+            [['time', 'number', 'name', 'event', 'create_at', 'file_id'], 'required'],
+            [['number', 'file_id'], 'integer'],
             [['create_at'], 'safe'],
             [['time', 'event'], 'string', 'max' => 71],
             [['name'], 'string', 'max' => 127],
-            [['status'], 'string', 'max' => 1],
+            [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => File::className(), 'targetAttribute' => ['file_id' => 'id']],
         ];
     }
 
@@ -53,7 +57,24 @@ class Data extends \yii\db\ActiveRecord
             'event' => Yii::t('app', 'Event'),
             'status' => Yii::t('app', 'Status'),
             'create_at' => Yii::t('app', 'Create At'),
+            'file_id' => Yii::t('app', 'File ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFile()
+    {
+        return $this->hasOne(File::className(), ['id' => 'file_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPeople()
+    {
+        return $this->hasMany(Person::className(), ['data_id' => 'id']);
     }
 
     /**

@@ -25,9 +25,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'event') ?>
 
-    <?php // echo $form->field($model, 'status') ?>
-
     <?php // echo $form->field($model, 'create_at') ?>
+
+    <?php // echo $form->field($model, 'file_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
