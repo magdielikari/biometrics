@@ -69,7 +69,7 @@ class FileController extends Controller
         if ($model->load(Yii::$app->request->post())) 
         {
             $id = Upload::file($model);
-            return $this->redirect(['import', 'id' => $id]);
+            return $this->redirect(['data', 'id' => $id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -78,15 +78,75 @@ class FileController extends Controller
     }
 
     /**
-     *
+     * Import data of excel file to databases
      */
-    public function actionImport($id)
+    public function actionData($id)
     {
         $model = $this->findModel($id);
         $status = Upload::data($id, $model);
         if($status)
         {
-            return $this->redirect(['data/import', 'app' => $id]);
+            return $this->redirect(['person', 'id' => $id]);
+        }
+    }
+
+    /**
+     * Import data of databases to person table
+     */
+    public function actionPerson($id)
+    {
+        $status = Upload::person($id);
+        if( $status )
+        {
+            return $this->redirect(['event', 'app' => $id]);
+        }
+    }
+
+    /**
+     * Import data of databases to person table
+     */
+    public function actionEvent($app)
+    {
+        $status = Upload::event($app);
+        if( $status )
+        {
+            return $this->redirect(['date']);
+        }
+    }
+
+    /**
+     * Import data of databases to person table
+     */
+    public function actionDate()
+    {
+        $status = Upload::date();
+        if( $status )
+        {
+            return $this->redirect(['labor']);
+        }
+    }
+
+    /**
+     * Import data of databases to person table
+     */
+    public function actionLabor()
+    {
+        $status = Upload::labor();
+        if( $status )
+        {
+            return $this->redirect(['record']);
+        }
+    }
+
+    /**
+     * Import data of databases to person table
+     */
+    public function actionRecord()
+    {
+        $status = Upload::record();
+        if( $status )
+        {
+            return $this->redirect(['finish']);
         }
     }
 
