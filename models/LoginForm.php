@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\form;
+namespace app\models;
 
 use Yii;
 use yii\base\Model;
@@ -32,6 +32,14 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+        ];
+    }
+    
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Usuario',
+            'password' => 'Contraseña'
         ];
     }
 

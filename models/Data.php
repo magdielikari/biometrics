@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "data".
@@ -12,12 +14,13 @@ use Yii;
  * @property string $number
  * @property string $name
  * @property string $event
- * @property string $status
- * @property string $create_at
+ * @property string $created_at
+ * @property string $created_by
+ * @property string $updated_at
+ * @property string $updated_by
  * @property string $file_id
  *
  * @property File $file
- * @property Person[] $people
  */
 class Data extends \yii\db\ActiveRecord
 {
@@ -30,14 +33,24 @@ class Data extends \yii\db\ActiveRecord
     }
 
     /**
+     *  Public doc   
+     */    
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            BlameableBehavior::className()
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['time', 'number', 'name', 'event', 'create_at', 'file_id'], 'required'],
-            [['number', 'file_id'], 'integer'],
-            [['create_at'], 'safe'],
+            [['time', 'number', 'name', 'event', 'file_id'], 'required'],
+            [['number', 'created_at', 'created_by', 'updated_at', 'updated_by', 'file_id'], 'integer'],
             [['time', 'event'], 'string', 'max' => 71],
             [['name'], 'string', 'max' => 127],
             [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => File::className(), 'targetAttribute' => ['file_id' => 'id']],
@@ -55,8 +68,10 @@ class Data extends \yii\db\ActiveRecord
             'number' => Yii::t('app', 'Number'),
             'name' => Yii::t('app', 'Name'),
             'event' => Yii::t('app', 'Event'),
-            'status' => Yii::t('app', 'Status'),
-            'create_at' => Yii::t('app', 'Create At'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'updated_by' => Yii::t('app', 'Updated By'),
             'file_id' => Yii::t('app', 'File ID'),
         ];
     }
@@ -67,14 +82,6 @@ class Data extends \yii\db\ActiveRecord
     public function getFile()
     {
         return $this->hasOne(File::className(), ['id' => 'file_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPeople()
-    {
-        return $this->hasMany(Person::className(), ['data_id' => 'id']);
     }
 
     /**

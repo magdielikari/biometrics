@@ -1,51 +1,50 @@
 <?php
 
 /* @var $this yii\web\View */
+use yii\helpers\Html;
+use yii\helpers\Url;
 
-$this->title = 'My Yii Application';
 ?>
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <?=
+            Html::img('@web/img/logo.jpg', ['alt'=>Yii::$app->name]);
+        ?>
     </div>
 
     <div class="body-content">
 
         <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <div class="col-lg-3">
+                <h2>Start</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                <p> "File" te permite cargar el archivo de Excel.</p>
+                <p> Con "Data" compruebas que se exportaron correctamente los datos.</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['file/index']);?>">File &raquo;</a></p>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+            <div class="col-lg-3">
+                <h2>Synthesis</h2>
+                    <p> "Person" contiene el registro de las personas.</p>
+                    <p> "Date" contiene el registro de los días laborados.</p>
+                <p><a class="btn btn-default" href="<?= Url::to(['person/index']);?>">Person &raquo;</a></p>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <div class="col-lg-3">
+                <h2>Analysis</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                    <p> "Event" contiene todos los registros ya sea de entrada o salida.</p>
+                    <p> "Worked" contiene los pares de entrada-salida de los días laborados.</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['worked/index']);?>">Worked &raquo;</a></p>
+            </div>
+            <div class="col-lg-3">
+                <h2>Report</h2>
+
+                    <p> "Record" contiene un reporte con los días laborados por cada persona; 
+                    así un total de horas laboradas y registradas en día.</p>
+
+                <p><a class="btn btn-default" href="<?= Url::to(['record/index']);?>">Record &raquo;</a></p>
             </div>
         </div>
 

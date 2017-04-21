@@ -12,14 +12,15 @@ use app\models\Date;
  */
 class DateSearch extends Date
 {
+    public $global;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day'], 'integer'],
-            [['weekday', 'month'], 'safe'],
+            [['id', 'number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['weekday','global', 'month'], 'safe'],
         ];
     }
 
@@ -58,6 +59,7 @@ class DateSearch extends Date
         }
 
         // grid filtering conditions
+/*
         $query->andFilterWhere([
             'id' => $this->id,
             'number_day' => $this->number_day,
@@ -65,11 +67,23 @@ class DateSearch extends Date
             'number_month' => $this->number_month,
             'year' => $this->year,
             'number_years_day' => $this->number_years_day,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
         ]);
+*/
 
+        $query->orFilterWhere(['like', 'weekday', $this->global])
+              ->orFilterWhere(['like', 'number_day', $this->global])
+              ->orFilterWhere(['like', 'number_month', $this->global])
+              ->orFilterWhere(['like', 'year', $this->global])
+              ->orFilterWhere(['like', 'number_years_day', $this->global])
+              ->orFilterWhere(['like', 'month', $this->global]);
+/*
         $query->andFilterWhere(['like', 'weekday', $this->weekday])
             ->andFilterWhere(['like', 'month', $this->month]);
-
+*/
         return $dataProvider;
     }
 }

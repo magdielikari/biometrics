@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\models\User;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\EventSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -13,25 +14,47 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="event-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Event'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
+            'person.name',
+            [
+                'attribute'=>'Event',
+                'value'=>function($dataProvider){
+                    return $dataProvider->event == '192.168.10.15' ? 'Salida' : 'Entrada';
+                }
+            ],
             'year',
             'number_years_day',
-            'unix_time',
-            'event',
-            'person_id',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute'=>'Time',
+                'value'=>function($dataProvider){
+                    return Yii::$app->formatter->asDatetime($dataProvider->unix_time, 'short');
+                },
+            ],
+            [
+                'attribute'=>'Created_at',
+                'value'=>function($dataProvider){
+                    return Yii::$app->formatter->asDatetime($dataProvider->created_at, 'short');
+                },
+            ],
+            [
+                'attribute'=>'Created_by',
+                'value'=>function($dataProvider){
+                    return User::findIdentity($dataProvider->created_by)->username;
+                },
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'visibleButtons' => [ 
+                    'update' => False, 
+                    'delete' => False
+                ],
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

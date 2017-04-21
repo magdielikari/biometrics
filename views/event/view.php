@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use app\models\User;
 /* @var $this yii\web\View */
 /* @var $model app\models\Event */
 
@@ -14,26 +14,48 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'year',
             'number_years_day',
-            'unix_time',
-            'event',
-            'person_id',
+           [
+                'attribute'=>'Time',
+                'value'=>function($dataProvider){
+                    return Yii::$app->formatter->asDatetime($dataProvider->unix_time, 'medium');
+                },
+            ],
+            [
+                'attribute'=>'Event',
+                'value'=>function($dataProvider){
+                    return $dataProvider->event == '192.168.10.15' ? 'Salida' : 'Entrada';
+                }
+            ],
+            [
+                'attribute'=>'Created_at',
+                'value'=>function($dataProvider){
+                    return Yii::$app->formatter->asDatetime($dataProvider->created_at, 'medium');
+                },
+            ],
+            [
+                'attribute'=>'Created_by',
+                'value'=>function($dataProvider){
+                    return User::findIdentity($dataProvider->created_by)->username;
+                },
+            ],
+            [
+                'attribute'=>'Updated_at',
+                'value'=>function($dataProvider){
+                    return Yii::$app->formatter->asDatetime($dataProvider->updated_at, 'medium');
+                },
+            ],
+            [
+                'attribute'=>'Updated_by',
+                'value'=>function($dataProvider){
+                    return User::findIdentity($dataProvider->updated_by)->username;
+                },
+            ],
+            'person.name',
         ],
     ]) ?>
 

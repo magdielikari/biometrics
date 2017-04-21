@@ -4,10 +4,11 @@ namespace app\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\form\LoginForm;
-use app\models\form\ContactForm;
+use yii\web\Controller;
+use app\models\LoginForm;
+use app\models\ContactForm;
+use yii\web\BadRequestHttpException;
 
 class SiteController extends Controller
 {
@@ -19,13 +20,16 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['login','contact','error','captcha'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout','index','about'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
+                    ]
                 ],
             ],
             'verbs' => [
@@ -51,6 +55,11 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function actionE()
+    {
+        throw new BadRequestHttpException("Hola Mundo");
     }
 
     /**

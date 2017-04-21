@@ -20,6 +20,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'event')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'created_at')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'created_by')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'updated_at')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'updated_by')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'person_id')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">

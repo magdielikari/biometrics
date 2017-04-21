@@ -9,11 +9,12 @@ namespace app\models\query;
  */
 class FileQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+/*
+    public function file($id = 28)
     {
-        return $this->andWhere('[[status]]=1');
-    }*/
-
+        return $this->andWhere(['file_id' => $id]);
+    }
+*/
     /**
      * @inheritdoc
      * @return \app\models\File[]|array

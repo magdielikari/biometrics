@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Data */
@@ -14,28 +15,48 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'time',
             'number',
             'name',
-            'event',
-            'status',
-            'create_at',
-            'file_id',
+            [
+                'attribute' => 'Event',
+                'value' => function($model){
+                    return $model->event == '192.168.10.15' ? 'Salida' : 'Entrada';
+                }
+            ],
+            [
+                'attribute' => 'Created_at',
+                'value' => function($model){
+                    return Yii::$app->formatter->asDatetime($model->created_at, 'medium');
+                },
+            ],
+            [
+                'attribute' => 'Created_by',
+                'value' => function($model){
+                    return User::findIdentity($model->created_by)->username;
+                },
+            ],
+            [
+                'attribute' => 'Updated_at',
+                'value' => function($model){
+                    return Yii::$app->formatter->asDatetime($model->updated_at, 'medium');
+                },
+            ],
+            [
+                'attribute' => 'Updated_by',
+                'value' => function($model){
+                    return User::findIdentity($model->updated_by)->username;
+                },
+            ],
+            [
+                'attribute' => 'Created_at',
+                'value' => function($model){
+                    return $model->region->name;
+                },
+            ]
         ],
     ]) ?>
 

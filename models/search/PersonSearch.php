@@ -12,14 +12,15 @@ use app\models\Person;
  */
 class PersonSearch extends Person
 {
+    public $global;    
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'ci', 'file_id'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'ci', 'created_at', 'created_by', 'updated_at', 'updated_by', 'file_id'], 'integer'],
+            [['name', 'global', 'ci'], 'safe'],
         ];
     }
 
@@ -58,14 +59,22 @@ class PersonSearch extends Person
         }
 
         // grid filtering conditions
+/*
         $query->andFilterWhere([
             'id' => $this->id,
             'ci' => $this->ci,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
             'file_id' => $this->file_id,
         ]);
-
-        $query->andFilterWhere(['like', 'name', $this->name]);
-
+*/
+        $query->orFilterWhere(['like', 'name', $this->global])
+              ->orFilterWhere(['like', 'ci', $this->global]);
+/*        
+                $query->andFilterWhere(['like', 'name', $this->name]);
+*/
         return $dataProvider;
     }
 }

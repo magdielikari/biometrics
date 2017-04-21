@@ -5,20 +5,22 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Labor;
+use app\models\Worked;
 
 /**
- * LaborSearch represents the model behind the search form about `app\models\Labor`.
+ * WorkedSearch represents the model behind the search form about `app\models\Worked`.
  */
-class LaborSearch extends Labor
+class WorkedSearch extends Worked
 {
+    public $global;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'in', 'out', 'person_id', 'date_id'], 'integer'],
+            [['id', 'in', 'out', 'created_at', 'created_by', 'updated_at', 'updated_by', 'person_id', 'date_id'], 'integer'],
+            [['global'],'safe'],
         ];
     }
 
@@ -40,7 +42,7 @@ class LaborSearch extends Labor
      */
     public function search($params)
     {
-        $query = Labor::find();
+        $query = Worked::find();
 
         // add conditions that should always apply here
 
@@ -55,15 +57,28 @@ class LaborSearch extends Labor
             // $query->where('0=1');
             return $dataProvider;
         }
-
+/*
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'in' => $this->in,
             'out' => $this->out,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
             'person_id' => $this->person_id,
             'date_id' => $this->date_id,
         ]);
+*/
+        $query->joinWith('date');
+        $query->joinWith('person');
+
+        $query->orFilterWhere(['like','date.weekday',$this->global])
+              ->orFilterWhere(['like','date.number_day',$this->global])
+              ->orFilterWhere(['like','date.month',$this->global])
+              ->orFilterWhere(['like','date.year',$this->global])
+              ->orFilterWhere(['like','person.name',$this->global]);
 
         return $dataProvider;
     }

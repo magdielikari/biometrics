@@ -12,14 +12,15 @@ use app\models\Data;
  */
 class DataSearch extends Data
 {
+    public $global;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'number', 'file_id'], 'integer'],
-            [['time', 'name', 'event', 'status', 'create_at'], 'safe'],
+            [['id', 'number', 'created_at', 'created_by', 'updated_at', 'updated_by', 'file_id'], 'integer'],
+            [['time', 'global', 'name', 'event'], 'safe'],
         ];
     }
 
@@ -58,18 +59,25 @@ class DataSearch extends Data
         }
 
         // grid filtering conditions
+/*
         $query->andFilterWhere([
             'id' => $this->id,
             'number' => $this->number,
-            'create_at' => $this->create_at,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
             'file_id' => $this->file_id,
         ]);
+*/
+        $query->orFilterWhere(['like', 'time', $this->global])
+              ->orFilterWhere(['like', 'name', $this->global])
+              ->orFilterWhere(['like', 'event', $this->global]);
 
-        $query->andFilterWhere(['like', 'time', $this->time])
+/*
             ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'event', $this->event])
-            ->andFilterWhere(['like', 'status', $this->status]);
-
+            ->andFilterWhere(['like', 'event', $this->event]);
+*/
         return $dataProvider;
     }
 }

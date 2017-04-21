@@ -12,14 +12,15 @@ use app\models\Event;
  */
 class EventSearch extends Event
 {
+    public $global;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'year', 'number_years_day', 'unix_time', 'person_id'], 'integer'],
-            [['event'], 'safe'],
+            [['id', 'year', 'number_years_day', 'unix_time', 'created_at', 'created_by', 'updated_at', 'updated_by', 'person_id'], 'integer'],
+            [['event', 'global'], 'safe'],
         ];
     }
 
@@ -56,18 +57,30 @@ class EventSearch extends Event
             // $query->where('0=1');
             return $dataProvider;
         }
-
+/*
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'year' => $this->year,
             'number_years_day' => $this->number_years_day,
             'unix_time' => $this->unix_time,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
             'person_id' => $this->person_id,
         ]);
+*/
 
+        $query->joinWith('person');
+
+        $query->orFilterWhere(['like', 'year', $this->global])
+              ->orFilterWhere(['like', 'number_years_day', $this->global])
+              ->orFilterWhere(['like', 'person.name', $this->global]);
+
+/*
         $query->andFilterWhere(['like', 'event', $this->event]);
-
+*/
         return $dataProvider;
     }
 }

@@ -6,9 +6,9 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'defaultRoute' => 'site/index',
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'U_leGCN-rswXjdqNB8qwfGJAB5N2Scr4',
         ],
         'cache' => [
@@ -18,8 +18,11 @@ $config = [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
+        'formatter'=>[
+            'class' => 'yii\i18n\Formatter',
+        ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'site/error'
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -38,7 +41,6 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

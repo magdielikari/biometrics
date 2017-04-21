@@ -3,11 +3,11 @@
 namespace app\models\query;
 
 /**
- * This is the ActiveQuery class for [[\app\models\Labor]].
+ * This is the ActiveQuery class for [[\app\models\Worked]].
  *
- * @see \app\models\Labor
+ * @see \app\models\Worked
  */
-class LaborQuery extends \yii\db\ActiveQuery
+class WorkedQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class LaborQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \app\models\Labor[]|array
+     * @return \app\models\Worked[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class LaborQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \app\models\Labor|array|null
+     * @return \app\models\Worked|array|null
      */
     public function one($db = null)
     {

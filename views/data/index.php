@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\models\User;
+use app\components\helpers\MyQuery;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\DataSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -13,26 +15,45 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="data-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Data'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
             'time',
             'number',
             'name',
-            'event',
-            // 'create_at',
-             'file_id',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute'=>'Event',
+                'value'=>function($dataProvider){
+                    return $dataProvider->event == '192.168.10.15' ? 'Salida' : 'Entrada';
+                }
+            ],
+            [
+                'attribute'=>'Created_at',
+                'value'=>function($dataProvider){
+                    return Yii::$app->formatter->asDatetime($dataProvider->created_at, 'short');
+                },
+            ],
+            [
+                'attribute'=>'Created_by',
+                'value'=>function($dataProvider){
+                    return User::findIdentity($dataProvider->created_by)->username;
+                },
+            ],
+            [
+                'attribute' => 'File name',
+                'value' => 'file.name'
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'visibleButtons' => [ 
+                    'update' => False, 
+                    'delete' => False
+                    ]
+            ]          
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "date".
@@ -15,10 +17,14 @@ use Yii;
  * @property integer $number_years_day
  * @property string $weekday
  * @property string $month
+ * @property string $created_at
+ * @property integer $created_by
+ * @property string $updated_at
+ * @property integer $updated_by
  *
- * @property Labor[] $labors
  * @property Record[] $records
  * @property Person[] $people
+ * @property Worked[] $workeds
  */
 class Date extends \yii\db\ActiveRecord
 {
@@ -31,13 +37,24 @@ class Date extends \yii\db\ActiveRecord
     }
 
     /**
+     *  Public doc   
+     */    
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            BlameableBehavior::className()
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
             [['number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day', 'weekday', 'month'], 'required'],
-            [['number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day'], 'integer'],
+            [['number_day', 'number_weeks_day', 'number_month', 'year', 'number_years_day', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['weekday', 'month'], 'string', 'max' => 17],
         ];
     }
@@ -56,15 +73,11 @@ class Date extends \yii\db\ActiveRecord
             'number_years_day' => Yii::t('app', 'Number Years Day'),
             'weekday' => Yii::t('app', 'Weekday'),
             'month' => Yii::t('app', 'Month'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'updated_by' => Yii::t('app', 'Updated By'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLabors()
-    {
-        return $this->hasMany(Labor::className(), ['date_id' => 'id']);
     }
 
     /**
@@ -81,6 +94,14 @@ class Date extends \yii\db\ActiveRecord
     public function getPeople()
     {
         return $this->hasMany(Person::className(), ['id' => 'person_id'])->viaTable('record', ['date_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWorkeds()
+    {
+        return $this->hasMany(Worked::className(), ['date_id' => 'id']);
     }
 
     /**

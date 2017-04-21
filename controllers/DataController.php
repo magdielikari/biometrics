@@ -3,13 +3,7 @@
 namespace app\controllers;
 
 use Yii;
-use yii\db\Query;
 use app\models\Data;
-use app\models\Date;
-use app\models\Event;
-use app\models\Person;
-use app\models\Record;
-use app\models\Labor;
 use app\models\search\DataSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -79,8 +73,6 @@ class DataController extends Controller
             ]);
         }
     }
-
-    //print("<pre>".print_r($query,true)."</pre>"); 
 
     /**
      * Updates an existing Data model.

@@ -27,7 +27,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Html::img('@web/img/pwe.png', ['alt'=>Yii::$app->name]),
+        'brandLabel' => Html::img('@web/img/log.png', ['alt'=>Yii::$app->name]),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -37,9 +37,42 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
+            !Yii::$app->user->isGuest ? (
+                ['label' => 'Start', 'items' => [
+                        ['label' => 'File','url' => ['/file/index']],
+                        ['label' => 'Data','url' => ['/data/index']],
+                    ]
+                ]
+            ) : (            
+                ['label' => 'Mission', 'url' => ['/site/index']]
+            )
+            ,!Yii::$app->user->isGuest ? (
+                ['label' => 'Synthesis', 'items' => [
+                        ['label' => 'Person','url' => ['/person/index']],
+                        ['label' => 'Date','url' => ['/date/index']],
+                    ]
+                ]
+            ) : (            
+                ['label' => 'Vision', 'url' => ['/site/index']]
+            )
+            ,!Yii::$app->user->isGuest ? (
+                ['label' => 'Analysis', 'items' => [
+                        ['label' => 'Event','url' => ['/event/index']],
+                        ['label' => 'Worked','url' => ['/worked/index']],
+                    ]
+                ]
+            ) : (            
+                ['label' => 'Values', 'url' => ['/site/index']]
+            )
+            ,!Yii::$app->user->isGuest ? (
+                ['label' => 'Report', 'items' => [
+                        ['label' => 'Record','url' => ['/record/index']],
+                    ]
+                ]
+            ) : (            
+                ['label' => 'Principles', 'url' => ['/site/index']]
+            )
+            ,Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'

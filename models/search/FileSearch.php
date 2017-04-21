@@ -18,8 +18,8 @@ class FileSearch extends File
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['path', 'name', 'create_at', 'update_at'], 'safe'],
+            [['id', 'size', 'error', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['path', 'name'], 'safe'],
         ];
     }
 
@@ -60,8 +60,12 @@ class FileSearch extends File
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'create_at' => $this->create_at,
-            'update_at' => $this->update_at,
+            'size' => $this->size,
+            'error' => $this->error,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
         ]);
 
         $query->andFilterWhere(['like', 'path', $this->path])

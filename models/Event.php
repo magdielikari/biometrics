@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "event".
@@ -12,7 +14,11 @@ use Yii;
  * @property integer $number_years_day
  * @property string $unix_time
  * @property string $event
- * @property string $persona_id
+ * @property string $created_at
+ * @property string $created_by
+ * @property string $updated_at
+ * @property string $updated_by
+ * @property string $person_id
  *
  * @property Person $person
  */
@@ -27,13 +33,24 @@ class Event extends \yii\db\ActiveRecord
     }
 
     /**
+     *  Public doc   
+     */    
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            BlameableBehavior::className()
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
             [['year', 'number_years_day', 'unix_time', 'event', 'person_id'], 'required'],
-            [['year', 'number_years_day', 'unix_time', 'person_id'], 'integer'],
+            [['year', 'number_years_day', 'unix_time', 'created_at', 'created_by', 'updated_at', 'updated_by', 'person_id'], 'integer'],
             [['event'], 'string', 'max' => 71],
             [['person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['person_id' => 'id']],
         ];
@@ -50,7 +67,11 @@ class Event extends \yii\db\ActiveRecord
             'number_years_day' => Yii::t('app', 'Number Years Day'),
             'unix_time' => Yii::t('app', 'Unix Time'),
             'event' => Yii::t('app', 'Event'),
-            'person_id' => Yii::t('app', 'Persona ID'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'updated_by' => Yii::t('app', 'Updated By'),
+            'person_id' => Yii::t('app', 'Person ID'),
         ];
     }
 

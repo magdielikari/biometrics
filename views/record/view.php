@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use app\models\User;
 /* @var $this yii\web\View */
 /* @var $model app\models\Record */
 
@@ -14,26 +14,49 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'person_id' => $model->person_id, 'date_id' => $model->date_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'person_id' => $model->person_id, 'date_id' => $model->date_id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'person_id',
-            'date_id',
-            'counter',
-            'min',
-            'max',
-            'average',
+            'person.name',
+            'date.weekday',
+            'date.number_day',
+            'date.month',
+            'date.year',
+            'counter_record',
+            'time_record',
+            'counter_worked',
+            'time_worked',
+            'counter_record',
+            'counter_worked',
+            'min_record',
+            'max_record',
+            'average_record',
+            'time_worked',
+            'time_record',
+            [
+                'attribute'=>'Created_at',
+                'value'=>function($dataProvider){
+                    return Yii::$app->formatter->asDatetime($dataProvider->created_at, 'short');
+                },
+            ],
+            [
+                'attribute'=>'Created_by',
+                'value'=>function($dataProvider){
+                    return User::findIdentity($dataProvider->created_by)->username;
+                },
+            ],
+            [
+                'attribute'=>'Updated_at',
+                'value'=>function($dataProvider){
+                    return Yii::$app->formatter->asDatetime($dataProvider->updated_at, 'short');
+                },
+            ],
+            [
+                'attribute'=>'Updated_by',
+                'value'=>function($dataProvider){
+                    return User::findIdentity($dataProvider->updated_by)->username;
+                },
+            ],
         ],
     ]) ?>
 

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Date */
@@ -14,21 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+
             'number_day',
             'number_weeks_day',
             'number_month',
@@ -36,6 +26,30 @@ $this->params['breadcrumbs'][] = $this->title;
             'number_years_day',
             'weekday',
             'month',
+            [
+                'attribute' => 'Created_at',
+                'value' => function($model){
+                    return Yii::$app->formatter->asDatetime($model->created_at, 'medium');
+                },
+            ],
+            [
+                'attribute' => 'Created_by',
+                'value' => function($model){
+                    return User::findIdentity($model->created_by)->username;
+                },
+            ],            
+            [
+                'attribute' => 'Updated_at',
+                'value' => function($model){
+                    return Yii::$app->formatter->asDatetime($model->updated_by, 'medium');
+                },
+            ],
+            [
+                'attribute' => 'Updated_by',
+                'value' => function($model){
+                    return User::findIdentity($model->updated_by)->username;
+                },
+            ],
         ],
     ]) ?>
 

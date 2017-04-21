@@ -15,17 +15,31 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'person_id') ?>
+    <?= $form->field($model, 'global') ?>
 
-    <?= $form->field($model, 'date_id') ?>
+    <?php // $form->field($model, 'date_id') ?>
 
-    <?= $form->field($model, 'counter') ?>
+    <?php // $form->field($model, 'counter_record') ?>
 
-    <?= $form->field($model, 'min') ?>
+    <?php // $form->field($model, 'counter_worked') ?>
 
-    <?= $form->field($model, 'max') ?>
+    <?php // $form->field($model, 'min_record') ?>
 
-    <?php // echo $form->field($model, 'average') ?>
+    <?php // echo $form->field($model, 'max_record') ?>
+
+    <?php // echo $form->field($model, 'average_record') ?>
+
+    <?php // echo $form->field($model, 'time_worked') ?>
+
+    <?php // echo $form->field($model, 'time_record') ?>
+
+    <?php // echo $form->field($model, 'created_at') ?>
+
+    <?php // echo $form->field($model, 'created_by') ?>
+
+    <?php // echo $form->field($model, 'updated_at') ?>
+
+    <?php // echo $form->field($model, 'updated_by') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

@@ -15,21 +15,27 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'global') ?>
 
-    <?= $form->field($model, 'number_day') ?>
+    <?php // $form->field($model, 'number_day') ?>
 
-    <?= $form->field($model, 'number_weeks_day') ?>
+    <?php // $form->field($model, 'number_month') ?>
 
-    <?= $form->field($model, 'number_month') ?>
+    <?php // $form->field($model, 'year') ?>
 
-    <?= $form->field($model, 'year') ?>
+    <?php // $form->field($model, 'number_years_day') ?>
 
-    <?php // echo $form->field($model, 'number_years_day') ?>
+    <?php // $form->field($model, 'weekday') ?>
 
-    <?php // echo $form->field($model, 'weekday') ?>
+    <?php // $form->field($model, 'month') ?>
 
-    <?php // echo $form->field($model, 'month') ?>
+    <?php // echo $form->field($model, 'created_at') ?>
+
+    <?php // echo $form->field($model, 'created_by') ?>
+
+    <?php // echo $form->field($model, 'updated_at') ?>
+
+    <?php // echo $form->field($model, 'updated_by') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

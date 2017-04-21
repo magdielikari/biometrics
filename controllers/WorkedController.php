@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Labor;
-use app\models\search\LaborSearch;
+use app\models\Worked;
+use app\models\search\WorkedSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * LaborController implements the CRUD actions for Labor model.
+ * WorkedController implements the CRUD actions for Worked model.
  */
-class LaborController extends Controller
+class WorkedController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class LaborController extends Controller
     }
 
     /**
-     * Lists all Labor models.
+     * Lists all Worked models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new LaborSearch();
+        $searchModel = new WorkedSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class LaborController extends Controller
     }
 
     /**
-     * Displays a single Labor model.
+     * Displays a single Worked model.
      * @param string $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class LaborController extends Controller
     }
 
     /**
-     * Creates a new Labor model.
+     * Creates a new Worked model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Labor();
+        $model = new Worked();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class LaborController extends Controller
     }
 
     /**
-     * Updates an existing Labor model.
+     * Updates an existing Worked model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -94,7 +94,7 @@ class LaborController extends Controller
     }
 
     /**
-     * Deletes an existing Labor model.
+     * Deletes an existing Worked model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -107,15 +107,15 @@ class LaborController extends Controller
     }
 
     /**
-     * Finds the Labor model based on its primary key value.
+     * Finds the Worked model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Labor the loaded model
+     * @return Worked the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Labor::findOne($id)) !== null) {
+        if (($model = Worked::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

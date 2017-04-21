@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+//use yii\validators\FileValidator;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "file".
@@ -10,13 +13,18 @@ use Yii;
  * @property string $id
  * @property string $path
  * @property string $name
- * @property string $create_at
- * @property string $update_at
+ * @property string $size
+ * @property integer $error
+ * @property string $created_at
+ * @property string $created_by
+ * @property string $updated_at
+ * @property string $updated_by
  *
  * @property Data[] $datas
+ * @property Person[] $people
  */
 class File extends \yii\db\ActiveRecord
-{   
+{
     /**
      *  Public doc   
      */    
@@ -31,16 +39,25 @@ class File extends \yii\db\ActiveRecord
     }
 
     /**
+     *  Public doc   
+     */    
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            BlameableBehavior::className()
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['path', 'name', 'create_at', 'update_at'], 'required'],
-            [['create_at', 'update_at'], 'safe'],
-            [['file'],'file'],
-            [['path'], 'string', 'max' => 127],
-            [['name'], 'string', 'max' => 113],
+            [['size', 'error', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['path'], 'string', 'max' => 37],
+            [['name'], 'string', 'max' => 257],
         ];
     }
 
@@ -53,9 +70,12 @@ class File extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'path' => Yii::t('app', 'Path'),
             'name' => Yii::t('app', 'Name'),
-            'create_at' => Yii::t('app', 'Create At'),
-            'update_at' => Yii::t('app', 'Update At'),
-            'file' => Yii::t('app', 'Excel')
+            'size' => Yii::t('app', 'Size'),
+            'error' => Yii::t('app', 'Error'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'updated_by' => Yii::t('app', 'Updated By'),
         ];
     }
 
@@ -67,6 +87,19 @@ class File extends \yii\db\ActiveRecord
         return $this->hasMany(Data::className(), ['file_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPeople()
+    {
+        return $this->hasMany(Person::className(), ['file_id' => 'id']);
+    }
+/*
+    public function getDataFile($id)
+    {
+        return $this->hasMany(Data::className(), ['file_id' => 'id'])->file();
+    }
+*/
     /**
      * @inheritdoc
      * @return \app\models\query\FileQuery the active query used by this AR class.

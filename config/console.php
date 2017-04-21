@@ -20,7 +20,8 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'errorHandler' => [],
+        'db' => $db,      
     ],
     'params' => $params,
     /*

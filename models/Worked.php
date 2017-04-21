@@ -3,27 +3,44 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
- * This is the model class for table "labor".
+ * This is the model class for table "worked".
  *
  * @property string $id
  * @property string $in
  * @property string $out
+ * @property string $created_at
+ * @property string $created_by
+ * @property string $updated_at
+ * @property string $updated_by
  * @property string $person_id
  * @property string $date_id
  *
  * @property Date $date
  * @property Person $person
  */
-class Labor extends \yii\db\ActiveRecord
+class Worked extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'labor';
+        return 'worked';
+    }
+
+    /**
+     *  Public doc   
+     */    
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            BlameableBehavior::className()
+        ];
     }
 
     /**
@@ -33,7 +50,7 @@ class Labor extends \yii\db\ActiveRecord
     {
         return [
             [['in', 'out', 'person_id', 'date_id'], 'required'],
-            [['in', 'out', 'person_id', 'date_id'], 'integer'],
+            [['in', 'out', 'created_at', 'created_by', 'updated_at', 'updated_by', 'person_id', 'date_id'], 'integer'],
             [['date_id'], 'exist', 'skipOnError' => true, 'targetClass' => Date::className(), 'targetAttribute' => ['date_id' => 'id']],
             [['person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['person_id' => 'id']],
         ];
@@ -48,6 +65,10 @@ class Labor extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'in' => Yii::t('app', 'In'),
             'out' => Yii::t('app', 'Out'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'updated_by' => Yii::t('app', 'Updated By'),
             'person_id' => Yii::t('app', 'Person ID'),
             'date_id' => Yii::t('app', 'Date ID'),
         ];
@@ -71,10 +92,10 @@ class Labor extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \app\models\query\LaborQuery the active query used by this AR class.
+     * @return \app\models\query\WorkedQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \app\models\query\LaborQuery(get_called_class());
+        return new \app\models\query\WorkedQuery(get_called_class());
     }
 }
